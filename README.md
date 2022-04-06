@@ -22,9 +22,11 @@ $ pip install -r requirements.txt
 ```
 
 Make sure that you have changed the file paths ```cases_file_path```, ```deaths_file_path``` and ```recovered_file_path``` in ```app.py``` to the actual path of the following files:
--```cases_covid_de.csv```
--```deaths_covid_de.csv```
--```recovered_covid_de.csv```
+
+- ```cases_covid_de.csv```
+- ```deaths_covid_de.csv```
+- ```recovered_covid_de.csv```
+
 in ```data``` folder which you already cloned in your local machine.
 
 If you want to update the csv files mentioned above with new data, run ```expl_analysis.ipynb``` using Google Colaboratory.
