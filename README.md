@@ -27,7 +27,7 @@ Make sure that you have changed the file paths ```cases_file_path```, ```deaths_
 - ```deaths_covid_de.csv```
 - ```recovered_covid_de.csv```
 
-in ```data``` folder which you already cloned in your local machine.
+in ```data``` folder which you already cloned to your local machine.
 
 If you want to update the csv files mentioned above with new data, run ```expl_analysis.ipynb``` using Google Colaboratory.
 
