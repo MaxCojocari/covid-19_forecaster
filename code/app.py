@@ -6,11 +6,16 @@ from datetime import datetime, timedelta, date
 
 import streamlit as st 
 
+# change the file paths here
+cases_file_path = '/content/drive/MyDrive/PBL_sem2/cases_covid_de.csv'
+deaths_file_path = '/content/drive/MyDrive/PBL_sem2/deaths_covid_de.csv'
+recovered_file_path = '/content/drive/MyDrive/PBL_sem2/recovered_covid_de.csv'
+
+
 ALL = "All Cumulaive Series - No Forecast"
 CASES = "Total Cases"
 DEATHS = "Total Deaths"
 RECOVERIES = "Total Recoveries"
-
 
 @st.cache(allow_output_mutation=True)
 def make_forecast(selection, df, input_fh):
@@ -35,7 +40,7 @@ def make_forecast(selection, df, input_fh):
         y_label = "Recoveries"
 
 
-    #Setting the forecasting horizon
+    #Setting the forecasting horizon and the main forecaster
     fh = np.arange(1, input_fh+1)
 
     from sktime.forecasting.arima import ARIMA
@@ -47,7 +52,7 @@ def make_forecast(selection, df, input_fh):
 
     alpha = 0.05  
     df_pred, df_pred_ints = forecaster.predict(fh, return_pred_int=True, alpha=alpha)
-    
+
     new_pd = pd.concat([df_pred_ints["upper"], df_pred_ints["lower"][::-1]])
 
     # Create traces
@@ -87,14 +92,11 @@ def plot_graph(selected_series, y, input_fh):
 
 
 
-cases = pd.read_csv('/content/drive/MyDrive/PBL_sem2/cases_covid_de.csv',
-                        index_col=0, squeeze=True, dtype={1: float})
+cases = pd.read_csv(cases_file_path, index_col=0, squeeze=True, dtype={1: float})
 
-deaths = pd.read_csv('/content/drive/MyDrive/PBL_sem2/deaths_covid_de.csv',
-                        index_col=0, squeeze=True, dtype={1: float})
+deaths = pd.read_csv(deaths_file_path, index_col=0, squeeze=True, dtype={1: float})
 
-recovered = pd.read_csv('/content/drive/MyDrive/PBL_sem2/recovered_covid_de.csv',
-                        index_col=0, squeeze=True, dtype={1: float})
+recovered = pd.read_csv(recovered_file_path, index_col=0, squeeze=True, dtype={1: float})
 
 
 st.write("# COVID-19 Forecast in Germany")
@@ -138,13 +140,13 @@ if selected_series in [CASES, DEATHS, RECOVERIES]:
 else:
     start_date = '2022-01-01'
 
-    df_cases = pd.read_csv('/content/drive/MyDrive/PBL_sem2/cases_covid_de.csv')
+    df_cases = pd.read_csv(cases_file_path)
     select_data_cases = df_cases.loc[df_cases['date'] >= start_date]
     
-    df_deaths = pd.read_csv('/content/drive/MyDrive/PBL_sem2/deaths_covid_de.csv')
+    df_deaths = pd.read_csv(deaths_file_path)
     select_data_deaths = df_deaths.loc[df_deaths['date'] >= start_date]
     
-    df_recovered = pd.read_csv('/content/drive/MyDrive/PBL_sem2/recovered_covid_de.csv')
+    df_recovered = pd.read_csv(recovered_file_path)
     select_data_recovered = df_recovered.loc[df_recovered['date'] >= start_date]
 
     fig = go.Figure()
@@ -163,4 +165,3 @@ else:
                     xaxis_title='Date',
                     yaxis_title='Number of people')
     st.plotly_chart(fig)
-
